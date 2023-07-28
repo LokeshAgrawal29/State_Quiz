@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Adding Bootstrap CSS -->
+   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>State Capitals Quiz</title>
     <style>
@@ -81,7 +81,7 @@
 
         var submitButton = document.querySelector('button[type="submit"]');
         submitButton.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent the form from submitting
+            event.preventDefault(); 
             var userAnswer = document.querySelector('input[name="user_ans"]').value;
             var feedback = document.getElementById('feedback');
             feedback.innerHTML = "<br><br>User Answer: " + userAnswer + "<br>Correct Answer: " + ans[index];
