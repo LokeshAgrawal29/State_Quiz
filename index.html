@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Adding Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>State Capitals Quiz</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .quiz-form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .feedback-icon {
+            font-size: 24px;
+            margin-left: 10px;
+        }
+
+        #timer {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center text-white bg-primary p-2">State Capitals Quiz</h1>
+        <div id="timer">Time left: 10s</div>
+        <form method="post" class="quiz-form" id="quiz-form">
+            <input type="hidden" name="correct_ans" id="correct_ans">
+            <div class="form-group">
+                <label class="h5" id="question-label">Question: What is the capital of ?</label>
+                <input type="text" class="form-control" name="user_ans" required>
+            </div>
+            <button type="submit" name="subbtn" class="btn btn-primary">Submit Answer</button>
+            <div id="feedback"></div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function startTimer(duration, display) {
+            var timer = duration;
+            var interval = setInterval(function () {
+                display.textContent = "Time left: " + timer + "s";
+                timer--;
+                if (timer < 0) {
+                    clearInterval(interval);
+                    document.getElementById('quiz-form').submit();
+                }
+            }, 1000);
+        }
+
+        var duration = 10;
+        var display = document.querySelector('#timer');
+        startTimer(duration, display);
+        var ques = ["UP", "MP", "HP", "AP", "Bihar", "Goa", "Gujrat", "Harayana", "Tamil Nadu", "West Bengal", "Maharashtra"];
+        var ans = ["Lucknow", "Bhopal", "Shimla", "Amaravati", "Patna", "Panaji", "Gandhinagar", "Chandigarh", "Chennai", "Kolkata", "Mumbai"];
+        var index = Math.floor(Math.random() * ques.length);
+        var questionLabel = document.getElementById('question-label');
+        questionLabel.textContent = "Question: What is the capital of " + ques[index] + "?";
+
+        
+        var correctAnswerInput = document.getElementById('correct_ans');
+        correctAnswerInput.value = ans[index];
+
+        var submitButton = document.querySelector('button[type="submit"]');
+        submitButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the form from submitting
+            var userAnswer = document.querySelector('input[name="user_ans"]').value;
+            var feedback = document.getElementById('feedback');
+            feedback.innerHTML = "<br><br>User Answer: " + userAnswer + "<br>Correct Answer: " + ans[index];
+
+            if (userAnswer.toLowerCase() === ans[index].toLowerCase()) {
+                feedback.innerHTML += "<span class='feedback-icon text-success'>&#10004;</span><br><br><span class='text-success'>Correct Answer</span>";
+            } else {
+                feedback.innerHTML += "<span class='feedback-icon text-danger'>&#10008;</span><br><br><span class='text-danger'>Wrong Answer</span>";
+            }
+        });
+    </script>
+</body>
+
+</html>
