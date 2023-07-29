@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>State Capitals Quiz</title>
     <style>
@@ -54,6 +53,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        var interval;
+
         function submitAnswer() {
             var userAnswer = document.querySelector('input[name="user_ans"]').value;
             var correctAnswer = document.getElementById('correct_ans').value;
@@ -70,8 +71,8 @@
         }
 
         function generateQuestion() {
-            var ques = ["Uttar Pradesh", "Madhya Pradesh", "Himachal Pradesh", "Andhra Pradesh", "Bihar", "Goa", "Gujrat", "Harayana", "Tamil Nadu", "West Bengal", "Maharashtra","Chattisgarh","Rajasthan","Sikkim","Jharkand","Karnataka","Punjab"];
-            var ans = ["Lucknow", "Bhopal", "Shimla", "Amaravati", "Patna", "Panaji", "Gandhinagar", "Chandigarh", "Chennai", "Kolkata", "Mumbai","Raipur","Jaipur","Gangtok","Ranchi","Bengaluru","Chandigarh"];
+            var ques = ["Uttar Pradesh", "Madhya Pradesh", "Himachal Pradesh", "Andhra Pradesh", "Bihar", "Goa", "Gujrat", "Haryana", "Tamil Nadu", "West Bengal", "Maharashtra", "Chhattisgarh", "Rajasthan", "Sikkim", "Jharkhand", "Karnataka", "Punjab"];
+            var ans = ["Lucknow", "Bhopal", "Shimla", "Amaravati", "Patna", "Panaji", "Gandhinagar", "Chandigarh", "Chennai", "Kolkata", "Mumbai", "Raipur", "Jaipur", "Gangtok", "Ranchi", "Bengaluru", "Chandigarh"];
             var index = Math.floor(Math.random() * ques.length);
             var questionLabel = document.getElementById('question-label');
             questionLabel.textContent = "Question: What is the capital of " + ques[index] + "?";
@@ -79,6 +80,8 @@
             var correctAnswerInput = document.getElementById('correct_ans');
             correctAnswerInput.value = ans[index];
             document.querySelector('input[name="user_ans"]').value = '';
+
+            clearInterval(interval); 
             var duration = 15;
             var display = document.querySelector('#timer');
             startTimer(duration, display);
@@ -86,15 +89,18 @@
 
         function startTimer(duration, display) {
             var timer = duration;
-            var interval = setInterval(function () {
+            interval = setInterval(function () {
                 display.textContent = "Time left: " + timer + "s";
                 timer--;
                 if (timer < 0) {
                     clearInterval(interval);
-                    document.getElementById('quiz-form').submit();
+                    var feedback = document.getElementById('feedback');
+                    feedback.innerHTML = "<br><br><span class='text-danger'>Time's up! You didn't submit an answer.</span>";
+                    generateQuestion(); 
                 }
             }, 1000);
         }
+
         generateQuestion();
     </script>
 </body>
